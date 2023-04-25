@@ -4,6 +4,8 @@ const router = express.Router();
 
 const {
   register,
+  verify,
+  resendVerifyEmail,
   login,
   logout,
   currentUser,
@@ -15,11 +17,16 @@ const { authenticate, validateAuthBody, upload } = require("../../middleware");
 
 const {
   schemaRegister,
+  schemaEmail,
   schemaLogin,
   schemaUpdateSubscription,
 } = require("../../models/user");
 
 router.post("/register", validateAuthBody(schemaRegister), register);
+
+router.get("/verify/:verificationToken", verify);
+
+router.post("/verify", validateAuthBody(schemaEmail), resendVerifyEmail);
 
 router.post("/login", validateAuthBody(schemaLogin), login);
 
